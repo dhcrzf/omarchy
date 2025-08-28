@@ -17,6 +17,14 @@ hyprctl keyword cursor:invisible true
 
 while true; do
   effect=$(tte 2>&1 | grep -oP '{\K[^}]+' | tr ',' ' ' | tr ' ' '\n' | sed -n '/^beams$/,$p' | sort -u | shuf -n1)
+  while true; do
+    echo "$effect"
+    if [ "$effect" != "matrix" ]; then
+      echo "breaking"
+      break
+    fi
+    effect=$(tte 2>&1 | grep -oP '{\K[^}]+' | tr ',' ' ' | tr ' ' '\n' | sed -n '/^beams$/,$p' | sort -u | shuf -n1)
+  done
   tte -i ~/.config/omarchy/branding/screensaver.txt \
     --frame-rate 240 --canvas-width 0 --canvas-height $(($(tput lines) - 2)) --anchor-canvas c --anchor-text c \
     "$effect" &
